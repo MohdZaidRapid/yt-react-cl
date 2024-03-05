@@ -9,3 +9,7 @@
  
 
 
+
+# redux setup
+- slice
+- 
