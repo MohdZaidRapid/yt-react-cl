@@ -6,7 +6,7 @@ const searchSlice = createSlice({
   reducers: {
     cacheResults: (state, action) => {
       {
-        // state = { ...state, ...action.payload };
+        state = { ...state, ...action.payload };
         state = Object.assign(state, action.payload);
       }
     },
@@ -14,6 +14,7 @@ const searchSlice = createSlice({
 });
 
 export const { cacheResults } = searchSlice.actions;
+// LRU cache
 
 export default searchSlice.reducer;
 
