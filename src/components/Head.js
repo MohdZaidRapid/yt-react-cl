@@ -1,10 +1,24 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toggleMenu } from "../utils/appSlice";
 import { YOUTUBE_SEARCH_API } from "../utils/constants";
+import { cacheResults } from "../utils/searchSlice";
 
 const Head = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+
+  const searchCache = useSelector((store) => store.search);
+  const dispatch = useDispatch();
+
+  /**
+   * searchCache{
+   *
+   * "iphone":["I phone 11","I phone 14"]
+   * }
+   * searchQuery =iphone
+   */
 
   useEffect(() => {
     // API call over here
@@ -12,7 +26,11 @@ const Head = () => {
     // but if the difference between 2 api call is <200ms;
     // decline api call
     const timer = setTimeout(() => {
-      getSearchSuggestions();
+      if (searchCache[searchQuery]) {
+        setShowSuggestions(searchCache[searchQuery]);
+      } else {
+        getSearchSuggestions();
+      }
     }, 200);
 
     return () => {
@@ -45,9 +63,14 @@ const Head = () => {
     console.log("API CALL - " + searchQuery);
     const data = await fetch(YOUTUBE_SEARCH_API + searchQuery);
     const json = await data.json();
-  };
+    setSuggestions(json[1]);
 
-  const dispatch = useDispatch();
+    dispatch(
+      cacheResults({
+        [searchQuery]: json[1],
+      })
+    );
+  };
 
   const toggleMenuHandler = () => {
     dispatch(toggleMenu());
@@ -76,25 +99,24 @@ const Head = () => {
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
+            onFocus={() => setShowSuggestions(true)}
+            onBlur={() => setShowSuggestions(false)}
           />
           <button className="border border-gray-400 px-5 py-2 rounded-r-full bg-gray-100">
             🔍
           </button>
         </div>
-        <div className="fixed bg-white  py-2 px-2 w-[31.2rem] shadow-lg rounded-lg border border-gray-100">
-          <ul>
-            <li className="py-2 px-3 shadow-sm hover:bg-gray-100">🔍 Iphone</li>
-            <li className="py-2 px-3 shadow-sm hover:bg-gray-100">
-              🔍 Iphone Pro
-            </li>
-            <li className="py-2 px-3 shadow-sm hover:bg-gray-100">
-              🔍 Iphone Pro max
-            </li>
-            <li className="py-2 px-3 shadow-sm hover:bg-gray-100">
-              🔍 Iphone Pro max 14
-            </li>
-          </ul>
-        </div>
+        {showSuggestions && (
+          <div className="fixed bg-white  py-2 px-2 w-[31.2rem] shadow-lg rounded-lg border border-gray-100">
+            <ul>
+              {suggestions?.map((s) => (
+                <li key={s} className="py-2 px-3 shadow-sm hover:bg-gray-100">
+                  🔍{s}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
       <div className="col-span-1">
         <img
