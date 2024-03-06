@@ -94,8 +94,8 @@ const Comment = ({ data }) => {
 // n level nesting
 const CommentList = ({ comments }) => {
   return comments?.map((comment, index) => (
-    <div>
-      <Comment key={index} data={comment} />
+    <div key={index}>
+      <Comment  data={comment} />
       <div className="pl-5 border border-l-black ml-5 ">
         {/* <Comment key={index} data={comment} />
         <Comment key={index} data={comment} />
