@@ -75,7 +75,7 @@ const commentsData = [
 ];
 
 const Comment = ({ data }) => {
-  const { name, text, replies } = data;
+  const { name, text } = data;
   return (
     <div className="flex shadow-sm bg-gray-100 p-2 rounded-lg my-2">
       <img
@@ -95,7 +95,7 @@ const Comment = ({ data }) => {
 const CommentList = ({ comments }) => {
   return comments?.map((comment, index) => (
     <div key={index}>
-      <Comment  data={comment} />
+      <Comment data={comment} />
       <div className="pl-5 border border-l-black ml-5 ">
         {/* <Comment key={index} data={comment} />
         <Comment key={index} data={comment} />
