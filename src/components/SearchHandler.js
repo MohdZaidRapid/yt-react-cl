@@ -24,9 +24,9 @@ const SearchHandler = () => {
     dispatch(setVideoYt(json?.items));
 
     if (location.pathname === "/watch") {
-        // Navigate to the / route after fetching the videos
-        navigate("/");
-      }
+      // Navigate to the / route after fetching the videos
+      navigate("/");
+    }
   };
 
   useEffect(() => {

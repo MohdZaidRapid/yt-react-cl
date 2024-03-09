@@ -4,16 +4,17 @@ import { toggleMenu } from "../utils/appSlice";
 import { YOUTUBE_SEARCH_API } from "../utils/constants";
 import { cacheResults } from "../utils/searchSlice";
 import { setVideoYt } from "../utils/querySlice";
+import { useNavigate } from "react-router-dom";
 
 const Head = () => {
+  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
 
   const searchCache = useSelector((store) => store.search);
- 
+
   const dispatch = useDispatch();
-  
 
   /**
    * searchCache{
@@ -32,6 +33,7 @@ const Head = () => {
 
     const json = await data.json();
     dispatch(setVideoYt(json?.items));
+    navigate("/");
   };
 
   useEffect(() => {

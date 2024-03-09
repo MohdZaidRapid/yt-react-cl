@@ -6,7 +6,6 @@ import SearchVideoCard from "./SearchVideoCard";
 
 const SearchQueryVideo = () => {
   const queryVideos = useSelector((store) => store.query.queryVideos);
-  console.log(queryVideos);
 
   return (
     <div className="flex flex-wrap">

@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 
 const MainContainer = () => {
   const searchVideos = useSelector((store) => store.query.queryVideos);
-  console.log(searchVideos);
+  
   return (
     <div className="">
       <ButtonList />
