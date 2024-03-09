@@ -3,13 +3,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { toggleMenu } from "../utils/appSlice";
 import { YOUTUBE_SEARCH_API } from "../utils/constants";
 import { cacheResults } from "../utils/searchSlice";
+import { setVideoYt } from "../utils/querySlice";
+import { useNavigate } from "react-router-dom";
 
 const Head = () => {
+  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
 
   const searchCache = useSelector((store) => store.search);
+
   const dispatch = useDispatch();
 
   /**
@@ -19,6 +23,18 @@ const Head = () => {
    * }
    * searchQuery =iphone
    */
+  const handleFetchYoutubeVideo = async () => {
+    const data = await fetch(
+      "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=20&q=" +
+        searchQuery +
+        "&type=video&key=" +
+        process.env.REACT_APP_YOUTUBE_API
+    );
+
+    const json = await data.json();
+    dispatch(setVideoYt(json?.items));
+    navigate("/");
+  };
 
   useEffect(() => {
     // API call over here
@@ -101,7 +117,10 @@ const Head = () => {
             onFocus={() => setShowSuggestions(true)}
             onBlur={() => setShowSuggestions(false)}
           />
-          <button className="border border-gray-400 px-5 py-2 rounded-r-full bg-gray-100">
+          <button
+            onClick={() => handleFetchYoutubeVideo()}
+            className="border border-gray-400 px-5 py-2 rounded-r-full bg-gray-100"
+          >
             🔍
           </button>
         </div>

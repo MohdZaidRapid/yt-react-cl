@@ -12,7 +12,7 @@ const LiveChat = () => {
   useEffect(() => {
     const clearInteval = setInterval(() => {
       // API Polling
-      console.log("API Polling");
+      
       dispatch(
         addMessage({
           name: generateRandomName(),
@@ -37,7 +37,7 @@ const LiveChat = () => {
         className="w-full p-2 ml-2 border border-black rounded-lg"
         onSubmit={(e) => {
           e.preventDefault();
-          console.log("Hello word");
+          
           dispatch(
             addMessage({
               name: "Mohd Zaid",
