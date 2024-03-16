@@ -8,6 +8,7 @@ import MainContainer from "./components/MainContainer";
 import WatchPage from "./components/WatchPage";
 import SearchQuery from "./components/SearchQuery";
 import Demo from "./components/Demo";
+import Demo2 from "./components/Demo2";
 
 const appRouter = createBrowserRouter([
   {
@@ -24,7 +25,12 @@ const appRouter = createBrowserRouter([
       },
       {
         path: "demo",
-        element: <Demo />,
+        element: (
+          <>
+            <Demo />
+            <Demo2 />
+          </>
+        ),
       },
       {
         path: "query/:searchQuery",

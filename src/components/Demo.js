@@ -4,10 +4,11 @@ import { findNthPrime } from "../utils/helperfn";
 const Demo = () => {
   const [text, setText] = useState(0);
   const [isDarkTheme, setIsDarkTheme] = useState(true);
-  console.log("Rendering.......");
+  //   console.log("Rendering.......");
   //   heavy operation memoize
 
   const prime = useMemo(() => findNthPrime(text), [text]);
+  const v = 10;
 
   return (
     <div
@@ -21,7 +22,7 @@ const Demo = () => {
           className="m-10 p-2 bg-green-200"
           onClick={() => setIsDarkTheme(!isDarkTheme)}
         >
-          Toggle
+          Toggle {v}
         </button>
       </div>
       <div>
